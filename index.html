@@ -1,0 +1,578 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Green In Action is an education game that made with JavaScript and based on ZIM framework.The goal of the game is to provide an immersive gaming experience for users while teaching them the importance of protecting the environment."/>
+    <meta name="keywords" content="UX, design,UX&nbsp;design,UXDesign,UXD,hci,productdesign,prodcut&nbsp;design,uxresearch,ux&nbsp;research,frint-end,front-end development, resume, portfolio "/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Steve Yichen Li">
+    <link rel="shortcut icon" type="image/png" href="https://www.steveyichenli.com/assets/images/favicon.png"/>
+
+<!-- Google / Search Engine Tags -->
+<meta itemprop="name" content="Steve Li - Front-end Development | Green in Action ">
+<meta itemprop="description" content="Green In Action is an education game that made with JavaScript and based on ZIM framework.The goal of the game is to provide an immersive gaming experience for users while teaching them the importance of protecting the environment.">
+<meta itemprop="image" content="https://www.steveyichenli.com/assets/images/green@2x.png">
+ 
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="https://www.steveyichenli.com/front-end/green/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Steve Li - Front-end Development | Green in Action ">
+<meta property="og:image" content="https://www.steveyichenli.com/assets/images/green@2x.png">
+ 
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Steve Li - Front-end Development | Green in Action">
+<meta name="twitter:description" content="Green In Action is an education game that made with JavaScript and based on ZIM framework.The goal of the game is to provide an immersive gaming experience for users while teaching them the importance of protecting the environment.">
+<meta name="twitter:image" content="https://www.steveyichenli.com/assets/images/green@2x.png">
+    <title>Steve Li - Front-end Development | Green in Action</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Solway&display=swap" rel="stylesheet">
+
+
+    <script src="https://zimjs.org/cdn/1.2.3/createjs_min.js"></script>
+    <script src="https://zimjs.org/cdn/10.6.1/zim.js"></script>
+
+
+    <script>
+        var scaling = "fit";
+        var width = 1920;
+        var height = 1080;
+        var color = "#9AECF4";
+        var outerColor = dark;
+        var recyclingAssets = ["recycle1.png",
+            "recycle2.png",
+            "recycle3.png",
+            "recycle4.png",
+            "recycle5.png",
+            "recycle6.png",
+            "recycle7.png",
+            "recycle8.png"
+        ];
+
+        var nonRecyclingAssets = [
+            "non-recycle1.png",
+            "non-recycle2.png",
+            "non-recycle3.png",
+            "non-recycle4.png",
+            "non-recycle5.png"
+        ]
+
+        var assets = [
+            "background.png",
+            "recyclebin.png",
+            "non-recyclebin.png",
+            "intro.png",
+            "click.wav",
+            "beach.mp3",
+            "drop1.wav",
+            "drop2.wav",
+            "music.mp3",
+            "hover.ogg",
+            "final.png",
+
+
+
+        ]; // INSERT ALL ASSET FILE NAMES HERE
+
+        assets = assets.concat(recyclingAssets, nonRecyclingAssets)
+
+        zog(assets)
+
+        var path = "assets/"; // FILE FOLDER
+
+        const frame = new zim.Frame(scaling, width, height, color, outerColor, assets, path);
+        console.log(frame);
+
+        frame.on("ready", function() {
+
+
+            console.log("frame ready");
+
+            var stage = frame.stage;
+            var stageW = frame.width;
+            var stageH = frame.height;
+
+            makeIntro();
+            // // makeLvlTwo();
+            // // makeLvlThree();
+
+            function makeIntro() {
+
+
+
+                var intro = new Container(stageW, stageH).addTo(stage);
+
+                var introBackground = asset("intro.png").sca(0.75).addTo(intro).centerReg();
+
+                // Title label 
+                var title = new Label({
+                        text: "Green in Action",
+                        size: 65,
+                        font: "Kaushan Script",
+                        color: "#5C3114",
+                        paddingHorizontal: 80,
+                        paddingVertical: 30,
+                        align: "center"
+                    })
+                    .pos(600, 125, CENTER)
+                    .alp(0)
+                    .animate({
+                        props: {
+                            alpha: 1
+                        },
+                        wait: 200
+                    }).addTo(intro)
+
+
+
+
+                var instructions = new Label({
+                    text: "Help! Gabages are running the planet! \n put gabages to where it belong\n There are two kinds of garbage can: cyclable & non-recyclable\n Be careful when sorting different kind of garbages \n Lets work together to save the environment!",
+                    lineHeight: 70,
+                    align: "center",
+                    size: 32,
+                    color: white,
+                    font: 'Solway',
+                    paddingHorizontal: 80,
+                    paddingVertical: 60,
+                    corner: 20,
+                    fontOptions: "bold"
+                }).centerReg(intro).alp().pos(null, 300, CENTER);
+
+                var instructionBackground = new Rectangle({
+                    width: 1300,
+                    height: 400,
+                    corner: 45
+                }).centerReg(intro).pos(null, 280).ord(-1).alp(0.45);
+
+
+                var label;
+                label = new Label({
+                    text: "START",
+                    size: 48,
+                    font: "Kaushan Script",
+                    color: white,
+                    fontOptions: "bold",
+                    // mouse:"pointer"
+                });
+
+                // label.on("mouseover", function (e) {
+                //     asset("click.wav").play();});
+
+                var button;
+
+                button = new Button({
+                        label: label,
+                        width: 400,
+                        height: 100,
+                        backgroundColor: "orange",
+                        borderWidth: 0,
+                        rollBackgroundColor: green,
+                        corner: 20,
+
+                    })
+                    .centerReg(intro)
+                    .pos(null, 800, CENTER)
+                    .tap(function() {
+                        asset("click.wav").play();
+                        intro
+                            .cache()
+                            .animate({
+                                props: {
+                                    y: -stageH
+                                },
+                                time: 800,
+                                call: makeLvlOne
+                            });
+
+
+                        stage.update()
+
+                    });
+
+
+
+
+                var levelOne;
+                var backgroundImage;
+
+
+
+                function makeLvlOne() {
+
+                    asset("beach.mp3").play();
+                    asset("music.mp3").play();
+
+
+
+
+                    var game = new Container(stageW, stageH).addTo(stage);
+
+                    backgroundImage = frame.asset("background.png")
+                        .centerReg(game).sca(0.47);
+
+
+
+                    // Title label 
+                    var Gametitle = new Label({
+                            text: "Green in Action",
+                            size: 35,
+                            font: "Kaushan Script",
+                            color: "#5C3114",
+                            paddingHorizontal: 80,
+                            paddingVertical: 30,
+                            align: "center",
+
+                        })
+                        .pos(-800, 60, CENTER)
+                        .alp(0)
+                        .animate({
+                            props: {
+                                alpha: 1
+                            },
+                            wait: 200
+                        }).addTo(game)
+
+                    //instruction
+                    var Gameinstruction = new Label({
+                            text: "Sort gabage by its category",
+                            size: 35,
+                            font: "Solway",
+                            color: "#5C3114",
+                            paddingHorizontal: 80,
+                            paddingVertical: 30,
+                            align: "center"
+                        })
+                        .pos(665, 765, CENTER)
+                        .addTo(game)
+
+                    //binlebel 
+                    var binLabel = new Label({
+                            text: "Recyclable              Non-recyclable",
+                            size: 25,
+                            font: "Solway",
+                            color: "#5C3114",
+                            paddingHorizontal: 80,
+                            paddingVertical: 30,
+                            align: "center"
+                        })
+                        .pos(1430, 1030)
+                        .addTo(game)
+
+
+
+                    //recyclebin
+                    var recyclebin = asset("recyclebin.png").centerReg(game)
+                        .pos({
+                            x: 1150,
+                            y: 510
+                        })
+                        .sca(0.2);
+
+                    //nonRecyclebin
+                    var nonRecyclebin = asset("non-recyclebin.png").centerReg(game)
+                        .pos({
+                            x: 1390,
+                            y: 510
+                        })
+                        .sca(0.2);
+
+
+
+
+
+                    // var recycle1 = asset("recycle1.png").centerReg(stage).pos({
+                    //     x: 500,
+                    //     y: 800
+                    // }).drag();
+
+                    //recyclings
+                    var location = [{
+                        x: 700,
+                        y: 900
+                    }, {
+                        x: 1030,
+                        y: 220,
+                    }, {
+                        x: 1280,
+                        y: 600
+                    }, {
+                        x: 1350,
+                        y: 650
+                    }, {
+                        x: 1100,
+                        y: 1030
+                    }, {
+                        x: 300,
+                        y: 950
+                    }, {
+                        x: 500,
+                        y: 400
+                    }, {
+                        x: 800,
+                        y: 400
+                    }]
+                    var recyclings = new Container(stageW, stageH).centerReg(game);
+
+                    loop(recyclingAssets, function(assetName, i) {
+
+
+                        asset(assetName).centerReg(game).loc(location[i], null, recyclings).sca(0.6).alp(0).wiggle("rotation", 0, 2, 5, 2000, 1500)
+                            .animate({
+                                props: {
+                                    scale: 0.15,
+                                    alpha: 1
+                                },
+                                wait: 200
+
+                            });
+
+                    })
+
+                    recyclings.drag()
+
+                    //mouseover sound for recycling
+                    recyclings.on("mouseover", function(e) {
+                        asset("hover.ogg").play();
+                    });
+
+                    var count;
+                    recyclings.on("pressup", function(e) {
+                        count = 0;
+
+                        recyclings.loop(function(recyclingPart) {
+                            if (recyclingPart.hitTestBounds(recyclebin)) {
+                                count++;
+                                asset("drop1.wav").play();
+                                recyclebin.wiggle("rotation", 0, 2, 5, 150, null, 1000);
+
+                                recyclingPart.noDrag().animate({
+                                    props: {
+                                        x: recyclebin.x,
+                                        y: recyclebin.y,
+                                        scaleX: .1,
+                                        alpha: 0
+                                    },
+                                    time: 100,
+                                });
+                            }
+                        });
+                        zog(count, count1);
+                        if (count + count1 == 13) {
+                            zog("counts=" + (count + count1));
+                            game
+                                .cache()
+                                .animate({
+                                    props: {
+                                        y: -stageH
+                                    },
+                                    time: 800,
+                                    call: ending
+                                });
+                        }
+
+
+                    });
+                    recyclebin.on("wigglestop", function() {
+                        zog("hello");
+                        recyclebin.rotation = 0;
+                    })
+
+
+
+                    //non-recyclings
+
+                    var location2 = [{
+                        x: 950,
+                        y: 770
+                    }, {
+                        x: 1650,
+                        y: 500,
+                    }, {
+                        x: 500,
+                        y: 500
+                    }, {
+                        x: 1200,
+                        y: 600
+                    }, {
+                        x: 1070,
+                        y: 600
+                    }, {
+                        x: 100,
+                        y: 100
+                    }, {
+                        x: 100,
+                        y: 100
+                    }, {
+                        x: 100,
+                        y: 100
+                    }]
+                    var nonRecyclings = new Container(stageW, stageH).centerReg(game);
+
+
+
+                    loop(nonRecyclingAssets, function(assetName1, i) {
+                        asset(assetName1).centerReg(game).loc(location2[i], null, nonRecyclings).sca(0.6).alp(0).wiggle("rotation", 0, 2, 5, 2000, 1500)
+                            .animate({
+                                props: {
+                                    scale: 0.15,
+                                    alpha: 1
+                                },
+                                wait: 200
+                            });
+                    })
+
+                    nonRecyclings.drag()
+                        //mouseover sound for non recyclings
+                    nonRecyclings.on("mouseover", function(e) {
+                        asset("hover.ogg").play();
+                    });
+
+                    var count1;
+
+                    nonRecyclings.on("pressup", function(e) {
+                        count1 = 0;
+                        nonRecyclings.loop(function(nonRecyclingPart) {
+                            if (nonRecyclingPart.hitTestBounds(nonRecyclebin)) {
+                                count1++;
+                                asset("drop1.wav").play();
+                                nonRecyclebin.wiggle("rotation", 0, 2, 5, 150, null, 1000);
+                                nonRecyclingPart.noDrag().animate({
+                                    props: {
+                                        x: nonRecyclebin.x,
+                                        y: nonRecyclebin.y,
+                                        scaleX: .1,
+                                        alpha: 0
+                                    },
+                                    time: 100,
+                                });
+                            }
+                        });
+
+                        zog(count, count1);
+
+                        // if (count == 8) {
+                        //     // skunk.mouseChildren = false;
+                        //     recyclebin.animate({
+
+                        //         props: {
+                        //             y: 1000
+                        //         },
+                        //         wait: 500,
+                        //         time: 2000,
+                        //         // call: makePath
+                        //     })
+                        // }
+                        // var counts = count + count1;
+
+                        if (count + count1 == 13) {
+                            zog("counts=" + (count + count1));
+
+                            // function abc() {
+                            game
+                                .cache()
+                                .animate({
+                                    props: {
+                                        y: -stageH
+                                    },
+                                    time: 800,
+                                    call: ending
+                                });
+                            // };
+                            // abc();
+
+
+
+
+                            stage.update();
+                        };
+
+
+                    });
+                    nonRecyclebin.on("wigglestop", function() {
+                        zog("hello");
+                        nonRecyclebin.rotation = 0;
+                    })
+
+
+                    function ending() {
+                        zog("finsih")
+                        var ending = new Container(stageW, stageH).addTo(stage);
+                        varendingBackground = asset("final.png").sca(1.6).addTo(ending).centerReg(ending);
+
+                        var instructions = new Label({
+                    text: "Thank you for saving the enviornment!",
+                    // lineHeight: 70,
+                    align: "center",
+                    size: 70,
+                    color: "#5C3114",
+                    font: 'Solway',
+                   
+                    fontOptions: "bold"
+                }).centerReg(ending).alp().pos(null, 400, CENTER);
+
+                
+
+                        var label;
+                        label = new Label({
+                            text: "RESTART",
+                            size: 48,
+                            font: "Kaushan Script",
+                            color: white,
+                            fontOptions: "bold",
+                            // mouse:"pointer"
+                        });
+
+                        // label.on("mouseover", function (e) {
+                        //     asset("click.wav").play();});
+
+                        var button;
+
+                        button = new Button({
+                                label: label,
+                                width: 400,
+                                height: 100,
+                                backgroundColor: "orange",
+                                borderWidth: 0,
+                                rollBackgroundColor: green,
+                                corner: 20,
+
+                            })
+                            .centerReg(ending)
+                            .pos(null, 800, CENTER)
+                            .tap(function() {
+                                asset("click.wav").play();
+                                ending
+                                    .cache()
+                                    .animate({
+                                        props: {
+                                            y: -stageH
+                                        },
+                                        time: 800,
+                                        call: function() {
+                                            zgo("zim-personal.html")
+                                        }
+                                    });
+                                stage.update();
+                            })
+                        stage.update();
+                    }
+                }
+                stage.update();
+            }
+
+
+        }); // end of ready
+    </script>
+
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+
+</head>
+
+<body>
+    <!-- canvas with id="myCanvas" is made by zim Frame -->
+</body>
+
+</html>
